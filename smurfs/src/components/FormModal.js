@@ -5,6 +5,7 @@ import { SmurfContext } from '../contexts/SmurfContext';
 
 const FormModal = props => {
   const [formState, setFormState] = useState({name: '', age: '', height: ''});
+  const [error, setError] = useState(null);
   const [smurfs, setSmurfs] = useContext(SmurfContext);
 
 
@@ -14,18 +15,20 @@ const FormModal = props => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setError(null);
     axios.post('http://localhost:3333/smurfs', formState)
       .then(response => {
         setSmurfs(response.data);
         props.toggleModal();
       })
       .catch(error => {
-        console.log(error);
+        setError(error.message);
       })
   }
 
   return (
     <form className="modal-content" onSubmit={handleSubmit}>
+      <div className="error">{error && error}</div>
       <div className="form-group">
         <label htmlFor="">Name</label>
         <input 
