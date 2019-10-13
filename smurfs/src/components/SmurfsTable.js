@@ -1,6 +1,21 @@
-import React from 'react'; 
+import React, { useContext, useEffect } from 'react'; 
+import SmurfItem from './SmurfItem';
+import { SmurfContext } from '../contexts/SmurfContext';
+import axios from 'axios';
 
 const SmurfsTable = (props) => {
+  const [smurfs, setSmurfs] = useContext(SmurfContext)
+
+  useEffect(() => {
+    axios.get('http://localhost:3333/smurfs')
+      .then(response => response.data)
+      .then(data => {
+        setSmurfs(data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }, [])
   
   return (
     <div className="table-md">
@@ -8,30 +23,17 @@ const SmurfsTable = (props) => {
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Height</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {
+            smurfs.map((smurf) => (
+              <SmurfItem smurf={smurf} key={smurf.id}/>
+            ))
+          }
         </tbody>
       </table>
     </div>
