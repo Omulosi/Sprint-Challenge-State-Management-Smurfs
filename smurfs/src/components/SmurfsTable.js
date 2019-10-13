@@ -15,7 +15,7 @@ const SmurfsTable = (props) => {
       .catch(error => {
         console.log(error);
       })
-  }, [])
+  }, [smurfs])
   
   return (
     <div className="table-md">
