@@ -22,7 +22,7 @@ const  App = props => {
         {
           state.showModal? (
             <Modal toggleModal={toggleModal}>
-              <FormModal toggleModal={toggleModal}/>
+              <FormModal />
             </Modal>
           ): null
         }
